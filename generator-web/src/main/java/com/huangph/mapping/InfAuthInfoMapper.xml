@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huangph.dao.InfAuthInfoDao">
+
+    <resultMap id="InfAuthInfo" type="com.huangph.entity.InfAuthInfo" >
+        <result column="auth_info_id" property="authInfoId" />
+        <result column="system_name" property="systemName" />
+        <result column="system_code" property="systemCode" />
+        <result column="system_type" property="systemType" />
+        <result column="api_key" property="apiKey" />
+        <result column="api_secret" property="apiSecret" />
+        <result column="create_time" property="createTime" />
+        <result column="expire_date" property="expireDate" />
+        <result column="status" property="status" />
+        <result column="status_time" property="statusTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        `auth_info_id`,
+        `system_name`,
+        `system_code`,
+        `system_type`,
+        `api_key`,
+        `api_secret`,
+        `create_time`,
+        `expire_date`,
+        `status`,
+        `status_time`,
+        `remark`
+    </sql>
+
+    <insert id="insert" parameterType="java.util.Map" >
+        INSERT INTO inf_auth_info (
+            `auth_info_id`,
+            `system_name`,
+            `system_code`,
+            `system_type`,
+            `api_key`,
+            `api_secret`,
+            `create_time`,
+            `expire_date`,
+            `status`,
+            `status_time`,
+            `remark`
+        )
+        VALUES(
+            #{infAuthInfo.authInfoId},
+            #{infAuthInfo.systemName},
+            #{infAuthInfo.systemCode},
+            #{infAuthInfo.systemType},
+            #{infAuthInfo.apiKey},
+            #{infAuthInfo.apiSecret},
+            #{infAuthInfo.createTime},
+            #{infAuthInfo.expireDate},
+            #{infAuthInfo.status},
+            #{infAuthInfo.statusTime},
+            #{infAuthInfo.remark}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="java.util.Map" >
+        DELETE FROM inf_auth_info
+        WHERE `id` = #{id}
+    </delete>
+
+    <update id="update" parameterType="java.util.Map" >
+        UPDATE inf_auth_info
+        SET
+            auth_info_id = #{infAuthInfo.authInfoId},
+            system_name = #{infAuthInfo.systemName},
+            system_code = #{infAuthInfo.systemCode},
+            system_type = #{infAuthInfo.systemType},
+            api_key = #{infAuthInfo.apiKey},
+            api_secret = #{infAuthInfo.apiSecret},
+            create_time = #{infAuthInfo.createTime},
+            expire_date = #{infAuthInfo.expireDate},
+            status = #{infAuthInfo.status},
+            status_time = #{infAuthInfo.statusTime},
+            remark = #{infAuthInfo.remark},
+            UpdateTime = NOW()
+        WHERE `id` = #{infAuthInfo.id}
+    </update>
+
+
+    <select id="load" parameterType="java.util.Map" resultMap="InfAuthInfo">
+        SELECT <include refid="Base_Column_List" />
+        FROM inf_auth_info
+        WHERE `id` = #{id}
+    </select>
+
+    <select id="pageList" parameterType="java.util.Map" resultMap="InfAuthInfo">
+        SELECT <include refid="Base_Column_List" />
+        FROM inf_auth_info
+        LIMIT #{offset}, #{pagesize}
+    </select>
+
+    <select id="pageListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM inf_auth_info
+    </select>
+
+</mapper>
